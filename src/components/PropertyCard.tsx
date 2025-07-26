@@ -53,13 +53,17 @@ const PropertyCard = ({
   return (
     <>
       <Card
-        className="w-full bg-white overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer hover:bg-gray-50"
+        className="w-full bg-white overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-[1.02] group"
         onClick={handleCardClick}
       >
         <div className="relative">
-          <img src={image} alt={title} className="w-full h-48 object-cover" />
+          <img
+            src={image}
+            alt={title}
+            className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+          />
           <Badge
-            className={`absolute top-2 left-2 ${statusColors[status]}`}
+            className={`absolute top-3 left-3 ${statusColors[status]} font-medium px-3 py-1 text-sm rounded-full shadow-sm`}
             variant="secondary"
             onClick={(e) => e.stopPropagation()}
           >
@@ -68,7 +72,7 @@ const PropertyCard = ({
           <Button
             variant="ghost"
             size="icon"
-            className={`absolute top-2 right-2 rounded-full bg-white/80 hover:bg-white ${isFavorited ? "text-red-500" : "text-gray-500"}`}
+            className={`absolute top-3 right-3 rounded-full bg-white/90 hover:bg-white shadow-sm transition-all duration-200 ${isFavorited ? "text-red-500" : "text-gray-500"}`}
             onClick={(e) => {
               e.stopPropagation();
               if (!user) {
@@ -82,21 +86,27 @@ const PropertyCard = ({
           </Button>
         </div>
 
-        <CardContent className="p-4">
-          <h3 className="text-xl font-semibold mb-2">{title}</h3>
-          <p className="text-2xl font-bold text-primary mb-2">{price}</p>
-          <p className="text-gray-600 mb-4">{location}</p>
+        <CardContent className="p-6">
+          <h3 className="text-xl font-semibold mb-3 text-secondary line-clamp-1">
+            {title}
+          </h3>
+          <p className="text-2xl font-bold text-primary mb-3">{price}</p>
+          <p className="text-gray-600 mb-6 text-base">{location}</p>
 
-          <div className="flex justify-between text-gray-600 mt-4">
-            <div className="flex items-center gap-1">
-              <span className="font-semibold">{beds}</span> Beds
+          <div className="flex justify-between text-gray-600 pt-4 border-t border-gray-100">
+            <div className="flex items-center gap-1 text-sm">
+              <span className="font-semibold text-secondary">{beds}</span>
+              <span>Beds</span>
             </div>
-            <div className="flex items-center gap-1">
-              <span className="font-semibold">{baths}</span> Baths
+            <div className="flex items-center gap-1 text-sm">
+              <span className="font-semibold text-secondary">{baths}</span>
+              <span>Baths</span>
             </div>
-            <div className="flex items-center gap-1">
-              <span className="font-semibold">{sqft.toLocaleString()}</span>{" "}
-              sqft
+            <div className="flex items-center gap-1 text-sm">
+              <span className="font-semibold text-secondary">
+                {sqft.toLocaleString()}
+              </span>
+              <span>sqft</span>
             </div>
           </div>
         </CardContent>

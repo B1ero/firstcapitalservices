@@ -108,42 +108,38 @@ const Header = () => {
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center">
-              <NavigationMenu>
-                <NavigationMenuList className="space-x-1">
-                  {navigationItems.map((nav) => (
-                    <NavigationMenuItem key={nav.title} className="relative">
-                      <NavigationMenuTrigger className="h-20 px-4 text-sm font-medium bg-transparent hover:bg-transparent hover:text-primary data-[state=open]:bg-transparent data-[state=open]:text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary after:transform after:scale-x-0 after:transition-transform hover:after:scale-x-100 data-[state=open]:after:scale-x-100">
-                        {nav.title}
-                      </NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <ul className="min-w-[220px] p-2 bg-white rounded-md shadow-lg border border-border/50 animate-in fade-in-0 zoom-in-95">
-                          {nav.items.map((item) => (
-                            <li key={item.label}>
-                              <NavigationMenuLink asChild>
-                                {item.to ? (
-                                  <Link
-                                    to={item.to}
-                                    className="block select-none rounded-sm px-3 py-2.5 text-sm leading-none no-underline outline-none transition-colors hover:bg-primary/5 hover:text-primary"
-                                  >
-                                    {item.label}
-                                  </Link>
-                                ) : (
-                                  <a
-                                    href="#"
-                                    className="block select-none rounded-sm px-3 py-2.5 text-sm leading-none no-underline outline-none transition-colors hover:bg-primary/5 hover:text-primary"
-                                  >
-                                    {item.label}
-                                  </a>
-                                )}
-                              </NavigationMenuLink>
-                            </li>
-                          ))}
-                        </ul>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-                  ))}
-                </NavigationMenuList>
-              </NavigationMenu>
+              <div className="flex items-center">
+                {navigationItems.map((nav) => (
+                  <div key={nav.title} className="relative group">
+                    <button className="h-20 px-4 text-sm font-medium bg-transparent hover:bg-transparent hover:text-primary relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary after:transform after:scale-x-0 after:transition-transform hover:after:scale-x-100 group-hover:after:scale-x-100 transition-colors duration-200">
+                      {nav.title}
+                    </button>
+                    <div className="absolute left-0 top-full z-10 min-w-[220px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out">
+                      <ul className="p-2 bg-white rounded-md shadow-lg border border-border/50 mt-0">
+                        {nav.items.map((item) => (
+                          <li key={item.label}>
+                            {item.to ? (
+                              <Link
+                                to={item.to}
+                                className="block select-none rounded-sm px-3 py-2.5 text-sm leading-none no-underline outline-none transition-colors hover:bg-primary/5 hover:text-primary"
+                              >
+                                {item.label}
+                              </Link>
+                            ) : (
+                              <a
+                                href="#"
+                                className="block select-none rounded-sm px-3 py-2.5 text-sm leading-none no-underline outline-none transition-colors hover:bg-primary/5 hover:text-primary"
+                              >
+                                {item.label}
+                              </a>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </nav>
 
             {/* Actions Section */}

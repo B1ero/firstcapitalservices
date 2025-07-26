@@ -8,6 +8,10 @@ export type Profile = {
   phone_number: string | null;
   created_at?: string | null;
   updated_at?: string | null;
+  // Buyer questions
+  is_first_time_buyer?: boolean | null;
+  purchase_timeline?: string | null;
+  selling_current_home?: string | null;
 };
 
 type AuthState = {
@@ -22,6 +26,11 @@ type AuthState = {
     email: string,
     password: string,
     profile: Profile,
+    buyerQuestions?: {
+      is_first_time_buyer: boolean;
+      purchase_timeline: string;
+      selling_current_home: string;
+    },
   ) => Promise<{ data: any | null; error: Error | null }>;
   signOut: () => Promise<void>;
   setUser: (user: any | null) => void;
@@ -60,7 +69,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     }
   },
 
-  signUp: async (email: string, password: string, profile: Profile) => {
+  signUp: async (
+    email: string,
+    password: string,
+    profile: Profile,
+    buyerQuestions?: {
+      is_first_time_buyer: boolean;
+      purchase_timeline: string;
+      selling_current_home: string;
+    },
+  ) => {
     try {
       // Sign up the user with Supabase Auth
       const { data, error } = await supabase.auth.signUp({
@@ -71,6 +89,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             first_name: profile.first_name,
             last_name: profile.last_name,
             phone_number: profile.phone_number,
+            ...(buyerQuestions && {
+              is_first_time_buyer: buyerQuestions.is_first_time_buyer,
+              purchase_timeline: buyerQuestions.purchase_timeline,
+              selling_current_home: buyerQuestions.selling_current_home,
+            }),
           },
         },
       });
@@ -79,7 +102,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       // If email confirmation is not required, the user will be signed in immediately
       if (data.user) {
-        set({ user: data.user, profile });
+        const fullProfile = {
+          ...profile,
+          ...(buyerQuestions && {
+            is_first_time_buyer: buyerQuestions.is_first_time_buyer,
+            purchase_timeline: buyerQuestions.purchase_timeline,
+            selling_current_home: buyerQuestions.selling_current_home,
+          }),
+        };
+        set({ user: data.user, profile: fullProfile });
       }
 
       return { data, error: null };

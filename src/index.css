@@ -15,3 +15,44 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Page transition styles */
+.page-transition-wrapper {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Loading bar animation */
+.page-loading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(to right, #4f46e5, #ec4899);
+  z-index: 9999;
+  width: 0%;
+  animation: loadingBar 1s ease-in-out infinite;
+}
+
+@keyframes loadingBar {
+  0% {
+    width: 0%;
+  }
+  50% {
+    width: 70%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* Accessibility - respect user preferences */
+@media (prefers-reduced-motion) {
+  .page-loading-bar {
+    animation: none;
+  }
+
+  .page-transition-wrapper {
+    transition: none !important;
+  }
+}
